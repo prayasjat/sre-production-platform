@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: prometheus-alerts
+  namespace: monitoring
+
+data:
+  alerts.yml: |
+    groups:
+
+      - name: simple-sre-api
+
+        rules:
+
+          - alert: SimpleSREAPIDown
+
+            expr: up{job="simple-sre-api"} == 0
+
+            for: 1m
+
+            labels:
+              severity: critical
+
+            annotations:
+              summary: "Simple SRE API is down"
+              description: "Prometheus cannot scrape the Simple SRE API."
